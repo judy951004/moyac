@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- db.properties라는 파일을 읽어와서 이 파일에서 사용 -->
+	<properties resource="db.properties" />
+	<typeAliases>
+		<!-- ch17.model.Member이름을 간단하게 member라고 별명을 만들자 -->
+		<typeAlias alias="member"  type="model.Member" />	
+		<typeAlias alias="medicine"  type="model.Medicine" />
+		<typeAlias alias="board_QnA"  type="model.Board_QnA" />	
+		<typeAlias alias="board_notice"  type="model.Board_notice" />	
+		<typeAlias alias="board_event"  type="model.Board_event" />
+		<typeAlias alias="board_notice"  type="model.Board_notice" />	
+		<typeAlias alias="board_event"  type="model.Board_event" />
+		<typeAlias alias="QnALikes"  type="model.QnALikes" />
+		<typeAlias alias="eventLikes"  type="model.EventLikes" />
+		<typeAlias alias="noticeLikes"  type="model.NoticeLikes" />
+		<typeAlias alias="reply_event"  type="model.Reply_event" />
+		<typeAlias alias="replyLikes"  type="model.ReplyLikes" />
+		<typeAlias alias="bookmark"  type="model.Bookmark" />
+	</typeAliases>
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${driver}" />
+				<property name="url" value="${url}" />
+				<property name="username" value="${username}" />
+				<property name="password" value="${password}" />
+			</dataSource>
+		</environment>
+	</environments>
+	<mappers>
+		<mapper resource="member.xml" />
+		<mapper resource="medicine.xml" />
+		<mapper resource="board_QnA.xml"/>
+		<mapper resource="board_notice.xml"/>
+		<mapper resource="board_event.xml"/>
+		<mapper resource="QnALikes.xml"/>
+		<mapper resource="eventLikes.xml"/>
+		<mapper resource="noticeLikes.xml"/>
+		<mapper resource="reply_event.xml"/>
+		<mapper resource="replyLikes.xml"/>
+		<mapper resource="bookmark.xml"/>
+	</mappers>
+</configuration>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memberns">
+	<!-- 아이디 통한 멤버 조회 -->
+	<select id="select" parameterType="string" resultType="member">
+		select * from member where id=#{id} and del='n'
+	</select>
+	<!-- 게시판에서의 닉네임 조회 -->
+	<select id="select2" parameterType="string" resultType="member">
+		select * from member where id=#{id}
+	</select>
+	<!-- 회원 닉네임 중복조회 -->
+	<select id="selectNick" parameterType="string"
+		resultType="member">
+		select * from member where nick_name=#{nick_name}
+	</select>
+	<!-- 이메일 중복체크 -->
+	<select id="selectEmail" parameterType="string" resultType="member">
+		select * from member where email=#{email}
+	</select>
+	<!-- 회원 가입 -->
+	<insert id="insert" parameterType="member">
+		insert into member values(#{id}, #{password}, #{name}, #{nick_name},#{phone}, #{gender},
+		#{age}, #{email}, sysdate, 'n')
+	</insert>
+	<!-- 수정 -->
+	<update id="update" parameterType="member">
+		update member set
+		password=#{password}, name=#{name}, phone=#{phone}, gender=#{gender},
+		age=#{age}, email=#{email} where id=#{id}
+	</update>
+	<!-- 탈퇴 -->
+	<update id="delete" parameterType="string">
+		update member set del='y'
+		where id=#{id}
+	</update>
+	<!-- 아이디 찾기 -->
+	<select id="findId" parameterType="hashmap" resultType="member">
+		select * from member where name=#{name} and email=#{email}
+	</select>
+	<!-- 비밀번호 찾기 -->
+	<select	id="findPassword" parameterType="hashmap" resultType="member">
+		select * from member where id=#{id} and email=#{email}
+	</select> 
+	<!-- 회원수 -->
+	<select id="getTotal" resultType="integer">
+		select count(*) from member
+	</select>
+	<!-- 회원조회 -->
+	 <select id="list" parameterType="hashmap" resultType="member">
+		select * from (select rowNum rn, e.* from (select * from member order by reg_date desc) e) 
+			where rn between #{startRow} and #{endRow}
+	</select>
+	<!-- 비밀번호 수정 -->
+	<update id="updatePw" parameterType="member">
+		update member set
+		password=#{password} where id=#{id}
+	</update>
+	<!-- 지정한 종류의 칼럼(searchKey)에 검색한 단어(search value)가 포함되는 데이터의 수 조회 -->
+	<select id="searchGetTotal" parameterType="hashmap"  resultType="integer">
+		select count(*) from member where
+		<choose>
+			<when test="searchKey=='id'"> id like '%'||#{searchValue}||'%'</when> 
+			<when test="searchKey=='name'"> name like '%'||#{searchValue}||'%'</when> 
+			<otherwise> nick_name like '%'||#{searchValue}||'%'
+			</otherwise>
+		</choose>
+	</select>
+	<!-- 지정한 종류의 칼럼에 검색한 단어가 포함되는 데이터 조회 -->
+	<select id="searchMember" parameterType="hashmap" resultType="member">
+		select * from (select rowNum rn, a.* from (select * from member where
+		<choose>
+			<when test="searchKey.equals('id')"> id like '%'||#{searchValue}||'%' </when> 
+			<when test="searchKey.equals('name')"> name like '%'||#{searchValue}||'%'</when> 
+			<otherwise> nick_name like '%'||#{searchValue}||'%'</otherwise>
+		</choose>
+			 order by reg_date)a) where rn between #{startRow} and #{endRow}
+	</select>
+</mapper>

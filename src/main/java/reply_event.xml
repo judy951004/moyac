@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reply_eventns">	
+	<!-- 댓글작성 -->
+	<insert id="insert" parameterType="reply_event">
+		<selectKey keyProperty="reply_no" order="BEFORE" resultType="integer">
+			select nvl(max(reply_no), 0) + 1 reply_no from reply_event
+		</selectKey>
+		insert into reply_event values(#{reply_no}, #{content}, sysdate, 0, 'n', #{id},#{boardno})
+	</insert>
+	<!-- 게시판에 맞는 댓글 조회 -->
+	<select id="select" resultType="reply_event" parameterType="integer">
+		select * from reply_event where boardno = #{boardno} order by reply_no
+	</select>
+	<!-- 댓글 수정 -->
+	<update id="update" parameterType="reply_event">
+		update reply_event set content=#{content} where reply_no = #{reply_no}
+	</update>
+	<!-- 댓글 삭제 -->
+	<update id="delete" parameterType="integer">
+		update reply_event set del='y' where reply_no = #{reply_no}
+	</update>
+	<!-- reply_no에 맞는 댓글 조회 (1개)-->
+	<select id="select2" parameterType="integer" resultType="reply_event">
+		select * from reply_event where reply_no=#{reply_no}
+	</select>
+	<!-- 추천 증가 -->
+	<update id="likesPlus" parameterType="integer">
+		update reply_event set likes = likes + 1 where reply_no = #{reply_no}
+	</update>
+	<!-- 추천 감소 -->
+	<update id="likesMinus" parameterType="integer">
+		update reply_event set likes = likes - 1 where reply_no = #{reply_no}
+	</update>
+	<!-- 마이페이지 - 작성한 게시글 수 -->
+	<select id="getTotalMyReply" parameterType="String" resultType="integer">
+		select count(*) from reply_event where del='n' and id=#{id}
+	</select>
+	<!-- 마이페이지 - 작성한 게시글 목록 조회 -->
+	<select id="myReplyList" parameterType="integer" resultType="reply_event">
+		select * from reply_event where id = #{id} and del='n' order by reply_no desc
+	</select>
+</mapper>

@@ -1,0 +1,23 @@
+@charset "UTF-8";
+.container_search {
+	display: flax;
+	justify-content: center;
+	align-items: center;
+	padding: 0 50px;
+	width: 100%;
+	margin-top: 10px;
+}
+.searchForm {	
+	display: flex;
+	justify-content: flex-end;
+	margin-bottom: 10px;
+}
+.search_form2 {
+	margin-left: 10px;
+	margin-right: 10px;
+	width: 200px;
+	right: 10px;
+}
+h2 {
+	margin: 0 0 -40px 60px;
+}

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="medicinens">
+	<!-- 약품 입력 -->
+	<insert id="insert" parameterType="medicine">
+		<selectKey keyProperty="me_no" order="BEFORE" resultType="integer">
+			select nvl(max(me_no), 0) + 1 me_no from medicine
+		</selectKey>
+		insert into medicine values(#{me_no}, #{me_name}, #{me_color},#{me_shape},#{me_formulation}, #{me_pic},#{me_effect},
+		#{me_capacity},#{me_shape},#{del})
+	</insert>
+	<!-- 약품 총 갯수 -->
+	<select id="getTotal" resultType="integer">
+		select count(*) from medicine
+	</select>
+	<!-- 글자검색 시 총 갯수 -->
+	<select id="getSearchTotal" resultType="integer">
+		select count(*) from medicine where del='n' and me_name like '%'||#{search}||'%'
+	</select>
+	<!-- 글자로 검색 list -->
+	<select id="listSearch" resultType="medicine">
+		select * from (select rowNum rn, a.* from (select * from medicine where del='n' and me_name like '%'||#{search}||'%' order by me_no)a) where rn between #{startRow} and #{endRow}
+	</select>
+	<!-- me_no로 검색 -->
+	<select id="select" parameterType="string" resultType="medicine">
+		select * from medicine where me_no = #{me_no} and del='n'
+	</select>
+	<!-- 검색한 색깔에 맞는 총 약 갯수 -->
+	<select id="getTotalColor" resultType="integer">
+		select count(*) from medicine where del='n' and me_color like '%'||#{color}||'%'
+	</select>
+	<!-- 검색한 모양에 맞는 총 약 갯수 -->
+	<select id="getTotalShape" resultType="integer">
+		select count(*) from medicine where del='n' and me_shape like #{shape}
+	</select>
+	<!-- 검색한 제형에 맞는 총 약 갯수 -->
+	<select id="getTotalFormulation" resultType="integer">
+		select count(*) from medicine where del='n' and me_formulation like '%'||#{formulation}||'%'
+	</select>
+	<!-- 검색한 색깔,모양 에 맞는 총 약 갯수 -->
+	<select id="getTotalColorShape" resultType="integer">
+		select count(*) from medicine where del='n' and me_color like '%'||#{color}||'%' and me_shape like #{shape}
+	</select>
+	<!-- 검색한 색깔,제형 에 맞는 총 약 갯수 -->
+	<select id="getTotalColorForm" resultType="integer">
+		select count(*) from medicine where del='n' and me_color like '%'||#{color}||'%' and me_formulation like '%'||#{formulation}||'%'
+	</select>
+	<!-- 검색한 모양,제형 에 맞는 총 약 갯수 -->
+	<select id="getTotalShapeForm" resultType="integer">
+		select count(*) from medicine where del='n' and me_shape like #{shape} and me_formulation like '%'||#{formulation}||'%'
+	</select>
+	<!-- 검색한 색깔,모양,제형 에 맞는 총 약 갯수 -->
+	<select id="getTotalAll" resultType="integer">
+		select count(*) from medicine where del='n' and me_color like '%'||#{color}||'%' and me_shape like #{shape} and me_formulation like '%'||#{formulation}||'%'
+	</select>
+	<!-- 색, 모양, 제형으로 검색한 약 데이터 -->
+	<select id="list_All" resultType="medicine">
+		select * from (select rowNum rn,
+		a.* from (select * from medicine where me_color like
+		'%'||#{color}||'%' and me_shape like #{shape} and me_formulation like 
+		'%'||#{formulation}||'%' and del='n' order by me_no)a) where rn between #{startRow} and
+		#{endRow}
+	</select>
+	<!-- 색으로 검색한 약 데이터 -->
+	<select id="list_color" resultType="medicine">
+		select * from (select rowNum rn,
+		a.* from (select * from medicine where me_color like
+		'%'||#{color}||'%' and del='n' order by me_no)a) where rn between #{startRow} and
+		#{endRow}
+	</select>
+	<!-- 모양으로 검색한 약 데이터 -->
+	<select id="list_shape" resultType="medicine">
+		select * from (select rowNum rn,
+		a.* from (select * from medicine where me_shape like #{shape} and del='n' 
+		order by me_no)a) where rn between #{startRow} and
+		#{endRow}
+	</select>
+	<!-- 제형으로 검색한 약 데이터 -->
+	<select id="list_formulation" resultType="medicine">
+		select * from (select rowNum rn,
+		a.* from (select * from medicine where me_formulation like 
+		'%'||#{formulation}||'%' and del='n' order by me_no)a) where rn between #{startRow} and
+		#{endRow}
+	</select>
+	<!-- 색,모양으로 검색한 약 데이터 -->
+	<select id="list_colorShape" resultType="medicine">
+		select * from (select rowNum rn,
+		a.* from (select * from medicine where me_color like
+		'%'||#{color}||'%' and me_shape like #{shape} and del='n' order by me_no)a) where rn between #{startRow} and
+		#{endRow}
+	</select>
+	<!-- 색, 제형으로 검색한 약 데이터 -->
+	<select id="list_colorForm" resultType="medicine">
+		select * from (select rowNum rn,
+		a.* from (select * from medicine where me_color like
+		'%'||#{color}||'%' and me_formulation like 
+		'%'||#{formulation}||'%' and del='n' order by me_no)a) where rn between #{startRow} and
+		#{endRow}
+	</select>
+	<!-- 모양,제형으로 검색한 약 데이터 -->
+	<select id="list_shapeForm" resultType="medicine">
+		select * from (select rowNum rn,
+		a.* from (select * from medicine where me_shape like #{shape} and me_formulation like 
+		'%'||#{formulation}||'%' and del='n' order by me_no)a) where rn between #{startRow} and
+		#{endRow}
+	</select>
+	<!-- 모든 약품 데이터 -->
+	<select id="listTotal" resultType="medicine">
+		select * from (select rowNum rn, a.* from (select * from medicine order by me_no)a) where rn between #{startRow} and #{endRow}
+	</select>
+	<!-- 약품 삭제 -->
+	<update id="delete" parameterType="integer">
+		delete from medicine where me_no = #{me_no}
+<!-- 		update medicine set del='y' where me_no = #{me_no} -->
+	</update>
+</mapper>

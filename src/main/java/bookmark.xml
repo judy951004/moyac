@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bookmarkns">
+	<!-- 회원이 약품 북마크 했는지 조회 -->
+	<select id="select" resultType="integer">
+		select count(*) from bookmark where me_no=#{me_no} and id=#{id}
+	</select>
+	<!-- 회원이 약품 북마크 취소 -->
+	<delete id="delete">
+		delete from bookmark where me_no=#{me_no} and id=#{id}
+	</delete>
+	<!-- 회원이 약품 북마크 클릭 -->
+	<insert id="insert" parameterType="bookmark">
+		insert into bookmark values(#{id}, #{me_no})
+	</insert>
+	<!-- 마이페이지 - 북마크 개수 -->
+	<select id="getTotalMyBookmark" parameterType="String" resultType="integer">
+		select count(*) from bookmark where id=#{id}
+	</select>
+	<!-- 마이페이지 - 북마크 리스트 -->
+	<select id="myBookmarkList" resultType="bookmark">
+		select b.*, me_pic, me_name from bookmark b, medicine m where b.me_no = m.me_no and b.id = #{id}
+			and m.del='n' order by b.me_no desc
+	</select>
+</mapper>

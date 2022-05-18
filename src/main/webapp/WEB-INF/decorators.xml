@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<decorators defaultdir="/decorator">
+	<decorator name="main" page="moyac_logo.jsp"><!-- 디폴트로/decorator가 들어간다 -->
+		<pattern>/views/member/login*</pattern>
+		<pattern>/views/myPage*</pattern>
+		<pattern>/views/search*</pattern>
+		<pattern>/views/main/filter.jsp</pattern>
+		<pattern>/views/admin/*</pattern>
+		<pattern>/views/member/find*</pattern>
+		<pattern>/views/member/join*</pattern>
+		<pattern>/views/main/board*</pattern>
+		<pattern>/views/member/changePwForm*</pattern>		
+	</decorator>
+	<excludes>
+		<pattern>/views/sessionChk.jsp</pattern>
+		<pattern>/views/member/confirm*</pattern>
+		<pattern>/views/medicine/book*</pattern>
+		<pattern>/views/main/filter*</pattern>	
+		<pattern>/views/board_QnA/qnALikes*</pattern>
+		<pattern>/views/board_event/eventLikes*</pattern>
+		<pattern>/views/board_notice/noticeLikes*</pattern>
+	</excludes>
+	<decorator name="session" page="/decorator/moyac_logo_for_sessionChk.jsp">
+		<pattern>/views/medicine/*</pattern>
+		<pattern>/views/board_notice/content.do</pattern>
+		<pattern>/views/board_notice/noticeSearch.do</pattern>
+		<pattern>/views/board_notice/updateForm.do</pattern>
+		<pattern>/views/board_notice/writeForm.do</pattern>
+		<pattern>/views/board_notice/noticeSearch.do</pattern>
+		<pattern>/views/board_QnA/content.do</pattern>
+		<pattern>/views/board_QnA/noticeSearch.do</pattern>
+		<pattern>/views/board_QnA/updateForm.do</pattern>
+		<pattern>/views/board_QnA/writeForm.do</pattern>
+		<pattern>/views/board_QnA/qnASearch.do</pattern>
+		<pattern>/views/board_event/content.do</pattern>
+		<pattern>/views/board_event/noticeSearch.do</pattern>
+		<pattern>/views/board_event/updateForm.do</pattern>
+		<pattern>/views/board_event/writeForm.do</pattern>
+		<pattern>/views/board_event/eventSearch.do</pattern>
+	</decorator>
+	<decorator name="board" page="/decorator/board.jsp">
+		<pattern>/views/board_notice/list*</pattern>
+		<pattern>/views/board_event/list*</pattern>
+		<pattern>/views/board_QnA/list*</pattern>
+	</decorator>
+</decorators>

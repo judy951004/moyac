@@ -1,0 +1,36 @@
+@charset "UTF-8";
+.join_total {
+	display: -webkit-box; 
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items:center;
+	width: 100%;
+}
+
+.join_content {
+	display: -webkit-box; 
+	display: flex;
+	align-items: flex-start;
+}
+
+.form-control {
+	width: 400px;
+	border: none;
+	border-bottom: 1px solid #93cfce;
+	margin-bottom: 10px;
+}
+.join_form {
+	margin-top: 200px;
+}
+.title_size {
+	color : black;
+	font-size: 25px;
+	margin-bottom: 50px;
+}
+.err_form {
+	height: 30px;
+}
+.id_css {
+	border-bottom: none;
+}
